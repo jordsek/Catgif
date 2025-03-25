@@ -18,6 +18,7 @@ class CatBreedViewModel: ObservableObject {
         didSet {
             if !selectedBreed.isEmpty {
                 fetchCatImages(by: selectedBreed)
+                selectedBreedDetails = catBreeds.first { $0.id == selectedBreed }
             }
         }
     }
@@ -37,8 +38,7 @@ class CatBreedViewModel: ObservableObject {
         do{
             let list = try await repository.getBreedData(url: url)
             self.catBreeds = list
-            
-            // Auto-select first breed if none is selected
+            // Auto-select first breed if none selected
             if self.selectedBreed.isEmpty == true {
                 self.selectedBreed = list.first?.id ?? ""
                 self.selectedBreedDetails = list.first
