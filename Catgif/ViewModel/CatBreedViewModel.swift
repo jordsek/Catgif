@@ -6,9 +6,7 @@
 //
 
 import Foundation
-
 @MainActor
-
 class CatBreedViewModel: ObservableObject {
     @Published var customError: NetworkError?
     @Published var catBreeds: [CatBreed] = []
@@ -22,13 +20,12 @@ class CatBreedViewModel: ObservableObject {
             }
         }
     }
-    
     let repository: CatBreedRepository
     init(repository: CatBreedRepository) {
         self.repository = repository
     }
     
-    //function to fetch cat breed information
+    //function to fetch breed details
     func fetchCatBreeds(urlstrng: String) async{
         guard let url = URL(string: urlstrng) else {
             customError = NetworkError.invalidURL
@@ -43,18 +40,13 @@ class CatBreedViewModel: ObservableObject {
                 self.selectedBreed = list.first?.id ?? ""
                 self.selectedBreedDetails = list.first
             }
-        }  catch let someError {
-            print(someError.localizedDescription)
-            if someError as? NetworkError == .dataNotFound{
-                self.customError = NetworkError.dataNotFound
-            }else{
-                self.customError = NetworkError.parsingError
-            }
+        }  catch {
+            print(error)
         
         }
     }
     
-    //function to fetch cat images from image API
+    //function to fetch images
     func fetchCatImages(by breedId: String) {
         guard let url = URL(string: "https://api.thecatapi.com/v1/images/search?limit=20&breed_ids=\(breedId)&api_key=live_Ob9WROkU8K0Ktyp3jjn4vYagdRxt3m5sMGmNwh9mqHxLyxvhl0TDdRnr5AY8Tsou") else { return }
         
@@ -79,7 +71,3 @@ class CatBreedViewModel: ObservableObject {
     }
     
 }
-
-
-
-

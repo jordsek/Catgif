@@ -23,6 +23,11 @@ struct CatBreedDetailView: View {
                 .font(.body)
                 .foregroundColor(.secondary)
         }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(12)
+        .shadow(radius: 5)
+        .id(breed.id) // new view creation on breed change
     }
 }
 
