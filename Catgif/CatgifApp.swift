@@ -11,7 +11,7 @@ import SwiftUI
 struct CatgifApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CatBreedView()
         }
     }
 }

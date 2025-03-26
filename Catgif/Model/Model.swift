@@ -8,7 +8,7 @@
 import Foundation
 
 // Model for Cat Breed
-struct CatBreed: Identifiable, Codable {
+struct CatBreed: Identifiable, Codable, Equatable {
     let id: String
     let name: String
     let description: String?
@@ -29,7 +29,7 @@ let breedList = CatBreed(id: "abys",
 
 
 // Model for Cat Image
-struct CatImage: Identifiable, Codable {
+struct CatImage: Identifiable, Codable, Equatable {
     let id: String
     let url: String
 }
