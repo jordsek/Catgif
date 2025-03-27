@@ -35,7 +35,8 @@ class CatBreedViewModel: ObservableObject {
         do{
             let list = try await repository.getBreedData(url: url)
             self.catBreeds = list
-            // Auto-select first breed if none selected
+            
+            // Automatic select first breed if none selected
             if self.selectedBreed.isEmpty == true {
                 self.selectedBreed = list.first?.id ?? ""
                 self.selectedBreedDetails = list.first
