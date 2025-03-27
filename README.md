@@ -2,6 +2,10 @@
 Overview
 This is a Cat GIF app developed using Swift and SwiftUI for iOS 18 with Xcode 16. The app utilizes The Cat API to fetch and display cat images along with breed-specific information. It follows the Model-View-ViewModel (MVVM)architecture, includes a repository layer and a network layer, and uses the dependency injection design pattern.
 
+
+![Screenshot 2025-03-27 at 05 14 56](https://github.com/user-attachments/assets/3a44ac95-a9bc-4c06-b43b-fc7fd0fe7fe4)
+
+
 Features
 •	Select a cat breed from an interactive interface.
 •	Display a list of cat images based on the chosen breed.
