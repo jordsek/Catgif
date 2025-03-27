@@ -13,27 +13,34 @@ The MVVM architecture is implemented to improve code organization and maintainab
 Design Patterns
 •	Dependency Injection is used to reduce tight coupling between components, making the code more flexible and allowing for easy mocking or stubbing of dependencies during testing.
 Project Structure
+
 1. Model Directory
 •	APIEndpoints.swift – Defines structured API endpoints.
 •	Model.swift – Contains model structs for cat breeds and images, mapping JSON data from the API.
-2. Network Directory
+
+3. Network Directory
 •	Handles all network requests and operations, separating them from business logic to ensure better testability and maintainability.
-3. Repository Directory
+4. Repository Directory
+5. 
 •	Acts as a mediator between data sources (models) and the ViewModel.
 •	Manages data caching and retrieval efficiently.
-4. ViewModel Directory
+6. ViewModel Directory
+7. 
 •	Manages data and business logic for views.
 •	Publishes property changes to automatically update the UI.
 •	Contains key methods:
 o	fetchCatBreeds() – Fetches and updates the list of cat breeds. Automatically selects the first breed if none is chosen and handles errors.
 o	fetchCatImages() – Retrieves cat images based on the selected breed.
-5. View Directory
+8. View Directory
+9. 
 •	Handles UI components and user interactions.
 •	Key files:
 o	CatBreedView.swift – Displays the main UI layout.
 o	CatDetailBreedView.swift – Shows detailed breed information.
-6. Cache Directory
+
+11. Cache Directory
 •	Contains async image caching files for optimized image loading.
+
 Testing
 Two XCUnit Tests have been implemented to demonstrate testing in this architecture:
 •	NetworkManager – Tests network operations.
