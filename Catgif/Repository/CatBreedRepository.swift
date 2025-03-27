@@ -9,4 +9,5 @@ import Foundation
 
 protocol CatBreedRepository {
     func getBreedData(url: URL) async throws -> [CatBreed]
+    func getImageData(breedId: String) async throws -> [CatImage]
 }

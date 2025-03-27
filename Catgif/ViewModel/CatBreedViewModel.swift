@@ -12,10 +12,11 @@ class CatBreedViewModel: ObservableObject {
     @Published var catBreeds: [CatBreed] = []
     @Published var catImages: [CatImage] = []
     @Published var selectedBreedDetails: CatBreed?
-    @Published var selectedBreed: String = "" {
+    @MainActor @Published var selectedBreed: String = "" {
         didSet {
             if !selectedBreed.isEmpty {
-                fetchCatImages(by: selectedBreed)
+                //fetchCatImages(by: selectedBreed)
+                Task { await fetchCatImages(by: selectedBreed) }
                 selectedBreedDetails = catBreeds.first { $0.id == selectedBreed }
             }
         }
@@ -24,6 +25,8 @@ class CatBreedViewModel: ObservableObject {
     init(repository: CatBreedRepository) {
         self.repository = repository
     }
+    
+    
     
     //function to fetch breed details
     func fetchCatBreeds(urlstrng: String) async{
@@ -35,7 +38,6 @@ class CatBreedViewModel: ObservableObject {
         do{
             let list = try await repository.getBreedData(url: url)
             self.catBreeds = list
-            
             // Automatic select first breed if none selected
             if self.selectedBreed.isEmpty == true {
                 self.selectedBreed = list.first?.id ?? ""
@@ -48,27 +50,16 @@ class CatBreedViewModel: ObservableObject {
     }
     
     //function to fetch images
-    func fetchCatImages(by breedId: String) {
-        guard let url = URL(string: "https://api.thecatapi.com/v1/images/search?limit=20&breed_ids=\(breedId)&api_key=live_Ob9WROkU8K0Ktyp3jjn4vYagdRxt3m5sMGmNwh9mqHxLyxvhl0TDdRnr5AY8Tsou") else { return }
-        
-        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-            if let error = error {
-                print("Error fetching images: \(error.localizedDescription)")
-                return
-            }
-
-            guard let data = data else { return }
-
+    func fetchCatImages(by breedId: String) async {
             do {
-                let images = try JSONDecoder().decode([CatImage].self, from: data)
-                DispatchQueue.main.async {
-                    self?.catImages = images
+                let images = try await repository.getImageData(breedId: breedId)
+                await MainActor.run {
+                    catImages = images
                 }
             } catch {
-                print("Error decoding images: \(error.localizedDescription)")
+                await MainActor.run {
+                    customError = error as? NetworkError ?? .invalidURL
+                }
             }
-        }.resume()
-        
-    }
-    
+        }
 }

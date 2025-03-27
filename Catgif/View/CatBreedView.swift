@@ -49,8 +49,9 @@ struct CatBreedView: View {
             .pickerStyle(.menu)
             .animation(.default, value: viewModel.catBreeds)
             .onChange(of: viewModel.selectedBreed) { newBreed in
-                viewModel.fetchCatImages(by: newBreed)
-                    
+                Task {
+                    await viewModel.fetchCatImages(by: newBreed)
+                }
             }
             
         }
@@ -62,7 +63,7 @@ struct CatBreedView: View {
     private var imageList: some View {
         LazyVGrid(columns: gridColumns, spacing: 16) {
             ForEach(viewModel.catImages) { image in
-                AsyncImage(url: URL(string: image.url)) { phase in
+                CacheAsyncImage(url: URL(string: image.url)!) { phase in
                     Group {
                         if let image = phase.image {
                             image
